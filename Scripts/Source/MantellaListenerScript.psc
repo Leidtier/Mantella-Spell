@@ -107,7 +107,7 @@ endEvent
 
 ;All the event listeners  below have 'if' clauses added after Mantella 0.9.2 (except ondying)
 Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akSourceContainer)
-    if repository.playerTrackingOnItemAdded
+    if repository.playerTrackingOnItemAdded && repository.IsAllowedByKeywords(akBaseItem)
         
         string itemName = akBaseItem.GetName()
         string itemPickedUpMessage = getPlayerName() + " picked up " + itemName 
@@ -126,7 +126,7 @@ EndEvent
 
 
 Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akDestContainer)
-    if Repository.playerTrackingOnItemRemoved
+    if Repository.playerTrackingOnItemRemoved && repository.IsAllowedByKeywords(akBaseItem)
         string itemName = akBaseItem.GetName()
         string itemDroppedMessage = getPlayerName() + " dropped " + itemName 
 
@@ -144,7 +144,7 @@ endEvent
 
 
 Event OnSpellCast(Form akSpell)
-    if repository.playerTrackingOnSpellCast
+    if repository.playerTrackingOnSpellCast && repository.IsAllowedByKeywords(akSpell)
     string spellCast = (akSpell as form).getname()
         if spellCast
             if spellCast == "Mantella"
@@ -198,7 +198,7 @@ endEvent
 
 
 Event OnObjectEquipped(Form akBaseObject, ObjectReference akReference)
-    if repository.playerTrackingOnObjectEquipped
+    if repository.playerTrackingOnObjectEquipped && repository.IsAllowedByKeywords(akBaseObject)
         string itemEquipped = akBaseObject.getname()
         ;Debug.MessageBox("The player equipped " + itemEquipped)
         AddIngameEventToConversation(getPlayerName() + " equipped " + itemEquipped )
@@ -207,7 +207,7 @@ endEvent
 
 
 Event OnObjectUnequipped(Form akBaseObject, ObjectReference akReference)
-    if repository.playerTrackingOnObjectUnequipped
+    if repository.playerTrackingOnObjectUnequipped && repository.IsAllowedByKeywords(akBaseObject)
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox("The player unequipped " + itemUnequipped)
         AddIngameEventToConversation(getPlayerName() + " unequipped " + itemUnequipped )
@@ -216,7 +216,7 @@ endEvent
 
 
 Event OnPlayerBowShot(Weapon akWeapon, Ammo akAmmo, float afPower, bool abSunGazing)
-    if repository.playerTrackingOnPlayerBowShot
+    if repository.playerTrackingOnPlayerBowShot && repository.IsAllowedByKeywords(akWeapon) && repository.IsAllowedByKeywords(akAmmo)
         ;Debug.MessageBox("The player fired an arrow.")
         AddIngameEventToConversation(getPlayerName() + " fired an arrow.")
     endif
@@ -224,7 +224,7 @@ endEvent
 
 
 Event OnSit(ObjectReference akFurniture)
-    if repository.playerTrackingOnSit
+    if repository.playerTrackingOnSit && repository.IsAllowedByKeywords(akFurniture)
         ; Debug.MessageBox("playerTrackingOnSit is true")
         String furnitureName = akFurniture.getbaseobject().getname()
         AddIngameEventToConversation(getPlayerName() + " rested on / used a(n) "+furnitureName)
@@ -233,7 +233,7 @@ endEvent
 
 
 Event OnGetUp(ObjectReference akFurniture)
-    if repository.playerTrackingOnGetUp
+    if repository.playerTrackingOnGetUp && repository.IsAllowedByKeywords(akFurniture)
         ;Debug.MessageBox("The player stood up.")
         String furnitureName = akFurniture.getbaseobject().getname()
         AddIngameEventToConversation(getPlayerName() + " stood up from a(n) "+furnitureName)

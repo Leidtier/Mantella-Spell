@@ -18,9 +18,7 @@ VirtualMachineAdapter:
 Flags:
 - StartGameEnabled
 - 0x10
-- RunOnce
 Type: Misc
-Filter: MantellaEvents\
 NextAliasID: 1
 Aliases:
 - Name: PlayerAlias

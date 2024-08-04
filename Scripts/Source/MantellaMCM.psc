@@ -87,8 +87,14 @@ int property oid_AllowForNPCtoFollowToggle auto ;gia
 int property oid_NPCAngerToggle auto ;gia
 int property oid_NPCPackageToggle auto
 
+
 int property oid_debugNPCSelectMode auto
 int property oid_httpPort auto
+
+int property oid_useTrackingByKeyword auto
+int property oid_useAllowanceList auto
+int property oid_useBlockList auto
+
 
 string property PAGE_GENERAL = "General" auto
 string property PAGE_PLAYER = "Player" auto
@@ -107,10 +113,11 @@ string MantellaMCMcurrentPage
 ; Whenever a new repository value OR a new MCM setting is added, up the MCM version number returned by `ManatellaMCM.GetVersion()`
 ; and add the corresponding default value in 'MCMRepository.assignDefaultSettings' in a block corresponding to the version number like the examples
 int Function GetVersion()
-    Return 4
+    Return 5
 EndFunction
 
 event OnVersionUpdate(int a_version)
+    ;Debug.MessageBox("Detected new version of Mantella with changed MCM settings. Initialising defaults for new settings.")
     repository.assignDefaultSettings(CurrentVersion)
     self.OnConfigInit()
 EndEvent
@@ -355,6 +362,12 @@ Event OnOptionHighlight (Int optionID)
 		SetInfoText("Allows the player to speak to any NPC by initiating a conversation then entering the actor RefID and actor name that the player wishes to speak to")
 	elseif optionID == oid_httpPort
 		SetInfoText("HTTP port for Mantella to call. If you need to change the default port, change it here and the port for MantellaSoftware's server in its config.ini. Default: 4999")
+	elseIf optionID == oid_useTrackingByKeyword
+		SetInfoText("Only generate tracking messages for things that have certain Keywords attached.\nThis requires the mod 'Keyword Item Distributor (KID)' to distribute the keywords.")
+	elseIf optionID == oid_useAllowanceList
+		SetInfoText("Only generate tracking messages for items that are on the list of allowed things.")
+	elseIf optionID == oid_useBlockList
+		SetInfoText("Don't generate tracking messages for items that are on the list of blocked things. If something is also on the list of allowed items, this takes priority.")
 	EndIf
 endEvent
 

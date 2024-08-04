@@ -10,6 +10,10 @@ endfunction
 function LeftColumn(MantellaMCM mcm, MantellaRepository Repository) global
 	mcm.AddHeaderOption("Debug")
 	mcm.oid_debugNPCselectMode = mcm.AddToggleOption("NPC Debug Select Mode", Repository.NPCdebugSelectModeEnabled)
+    mcm.AddHeaderOption("Keyword Based Tracking")
+    mcm.oid_useTrackingByKeyword = mcm.AddToggleOption("Use Keyword based tracking", Repository.useTrackingByKeywords)
+    mcm.oid_useAllowanceList = mcm.AddToggleOption("Only track allowed things", Repository.useAllowanceList)
+    mcm.oid_useBlockList = mcm.AddToggleOption("Don't track blocked things", Repository.useBlockList)
 endfunction
 
 function RightColumn(MantellaMCM mcm, MantellaRepository Repository) global
@@ -53,5 +57,14 @@ function OptionUpdate(MantellaMCM mcm, int optionID, MantellaRepository Reposito
 	if optionID == mcm.oid_debugNPCselectMode
 		Repository.NPCdebugSelectModeEnabled =! Repository.NPCdebugSelectModeEnabled
 		mcm.SetToggleOptionValue(mcm.oid_debugNPCselectMode, Repository.NPCdebugSelectModeEnabled)
+    elseif optionID == mcm.oid_useTrackingByKeyword
+        Repository.useTrackingByKeywords =! Repository.useTrackingByKeywords
+        mcm.SetToggleOptionValue(optionID, Repository.useTrackingByKeywords)
+    elseif optionID == mcm.oid_useAllowanceList
+        Repository.useAllowanceList =! Repository.useAllowanceList
+        mcm.SetToggleOptionValue(optionID, Repository.useAllowanceList)
+    elseif optionID == mcm.oid_useBlockList
+        Repository.useBlockList =! Repository.useBlockList
+        mcm.SetToggleOptionValue(optionID, Repository.useBlockList)
 	endIf
 endfunction 

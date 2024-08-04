@@ -97,6 +97,12 @@ bool property NPCdebugSelectModeEnabled auto
 
 int property HttpPort auto
 
+bool property useTrackingByKeywords auto
+bool property useAllowanceList auto
+bool property useBlockList auto
+
+Keyword property ALLOWANCE_KEYWORD auto
+Keyword property BLOCK_KEYWORD auto
 
 event OnInit()
     assignDefaultSettings(0, true)
@@ -107,6 +113,12 @@ endEvent
 ; and add the corresponding default value here in a block corresponding to the version number like the examples below
 ; Doing it like this will only assign the defaul values to settings that haven't been initialised prior.
 function assignDefaultSettings(int lastVersion, bool isFirstInit = false)
+    ;Debug.MessageBox("Assigning default values for versions greater than " + lastVersion)
+    If (lastVersion < 5 || isFirstInit)
+        useTrackingByKeywords = false
+        useAllowanceList = true
+        useBlockList = true
+    EndIf
     If (lastVersion < 4 || isFirstInit)
         playerTrackingOnTimeChange = true
         playerTrackingOnWeatherChange = true
@@ -235,6 +247,27 @@ endfunction
 
 bool Function IsVR()
     return Debug.GetVersionNumber() == "1.4.15.0"
+EndFunction
+
+bool Function IsAllowedByKeywords(Form formToCheck)
+    If (!useTrackingByKeywords)
+        return true
+    EndIf
+    return PassesAllowanceList(formToCheck) && PassesBlockList(formToCheck)
+EndFunction
+
+bool Function PassesAllowanceList(Form formToCheck)
+    If (!useAllowanceList)
+        return true
+    EndIf
+    return formToCheck.HasKeyword(ALLOWANCE_KEYWORD)
+EndFunction
+
+bool Function PassesBlockList(Form formToCheck)
+    If (!useBlockList)
+        return true
+    EndIf
+    return !formToCheck.HasKeyword(BLOCK_KEYWORD)
 EndFunction
 
 Event OnKeyDown(int KeyCode)

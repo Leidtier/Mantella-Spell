@@ -15,7 +15,7 @@ EndFunction
 
 ;All the event listeners below have 'if' clauses added after Mantella 0.9.2 (except ondying)
 Event OnItemAdded(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akSourceContainer)
-    if repository.targetTrackingItemAdded 
+    if repository.targetTrackingItemAdded && repository.IsAllowedByKeywords(akBaseItem)
         String selfName = self.GetActorReference().getdisplayname()
         string itemName = akBaseItem.GetName()
         string itemPickedUpMessage = selfName+" picked up " + itemName 
@@ -34,7 +34,7 @@ EndEvent
 
 
 Event OnItemRemoved(Form akBaseItem, int aiItemCount, ObjectReference akItemReference, ObjectReference akDestContainer)
-    if repository.targetTrackingItemRemoved  
+    if repository.targetTrackingItemRemoved && repository.IsAllowedByKeywords(akBaseItem)
         String selfName = self.GetActorReference().getdisplayname()
         string itemName = akBaseItem.GetName()
         string itemDroppedMessage = selfName+" dropped " + itemName 
@@ -53,7 +53,7 @@ endEvent
 
 
 Event OnSpellCast(Form akSpell)
-    if repository.targetTrackingOnSpellCast 
+    if repository.targetTrackingOnSpellCast && repository.IsAllowedByKeywords(akSpell)
         String selfName = self.GetActorReference().getdisplayname()
         string spellCast = (akSpell as form).getname()
         if spellCast 
@@ -130,7 +130,7 @@ endEvent
 
 
 Event OnObjectEquipped(Form akBaseObject, ObjectReference akReference)
-    if repository.targetTrackingOnObjectEquipped
+    if repository.targetTrackingOnObjectEquipped && repository.IsAllowedByKeywords(akBaseObject)
         String selfName = self.GetActorReference().getdisplayname()
         string itemEquipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" equipped " + itemEquipped)
@@ -140,7 +140,7 @@ endEvent
 
 
 Event OnObjectUnequipped(Form akBaseObject, ObjectReference akReference)
-    if repository.targetTrackingOnObjectUnequipped
+    if repository.targetTrackingOnObjectUnequipped && repository.IsAllowedByKeywords(akBaseObject)
         String selfName = self.GetActorReference().getdisplayname()
         string itemUnequipped = akBaseObject.getname()
         ;Debug.MessageBox(selfName+" unequipped " + itemUnequipped)
@@ -150,7 +150,7 @@ endEvent
 
 
 Event OnSit(ObjectReference akFurniture)
-    if repository.targetTrackingOnSit
+    if repository.targetTrackingOnSit && repository.IsAllowedByKeywords(akFurniture)
         String selfName = self.GetActorReference().getdisplayname()
         ;Debug.MessageBox(selfName+" sat down.")
         String furnitureName = akFurniture.getbaseobject().getname()
@@ -163,7 +163,7 @@ endEvent
 
 
 Event OnGetUp(ObjectReference akFurniture)
-    if  repository.targetTrackingOnGetUp
+    if  repository.targetTrackingOnGetUp && repository.IsAllowedByKeywords(akFurniture)
         String selfName = self.GetActorReference().getdisplayname()
         ;Debug.MessageBox(selfName+" stood up.")
         String furnitureName = akFurniture.getbaseobject().getname()
